@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.vue": "html",
+        "array": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "forward_list": "cpp",
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp"
+    }
+}

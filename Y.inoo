@@ -1,0 +1,119 @@
+// GY-953  ARDUINO  测试代码 串口显示角度
+//注意1：下载程序时候，请先断开GY953的连线!否则将导致下载不成功
+//注意2：GY953模块使用时，上电自校正,建议不要用手拿着模块,
+//       保持3秒以上静止状态，才能发送命令开始工作
+//   GY953                  arduino pro mini
+//   VCC----------------------VCC
+//   RX-----------------------TX
+//   TX-----------------------RX
+//   GND----------------------GND
+/*
+
+*/
+
+int YPR[3];
+unsigned char Re_buf[11], counter = 0;
+unsigned char sign = 0;
+int led = 13;
+
+//-----------------------------------------------------------
+void setup() {
+  Serial.begin(115200);
+  Serial1.begin(115200);
+  Serial.println("setup start");
+  delay(1000);
+  Serial.println("3");
+  delay(1000);
+  Serial.println("2");
+  delay(1000);
+  Serial.println("1");
+  delay(1000);
+
+  // Serial1.write(0xA5);
+  // Serial1.write(0x51); //加速度传感器switch
+  // Serial1.write(0xF6);
+
+  Serial1.write(0xA5); //输出速率100hz
+  Serial1.write(0xA4);
+  Serial1.write(0x49);
+
+  // Serial1.write(0xA5); //default setting
+  // Serial1.write(0x59);
+  // Serial1.write(0xfe);
+
+  Serial.println("setup finish");
+}
+//-------------------------------------------------------------
+void loop() {
+  // delay(100);
+  if (sign) {
+    sign = 0;
+    if (Re_buf[0] == 0x5A && Re_buf[1] == 0x5A) //检查帧头，帧尾
+    {
+
+      if (Re_buf[2] == 0x15) {
+        Serial.print("ACC\t");
+
+        YPR[0] = (Re_buf[8] << 8 | Re_buf[9]);
+        YPR[1] = (Re_buf[6] << 8 | Re_buf[7]);
+        YPR[2] = (Re_buf[4] << 8 | Re_buf[5]);
+        Serial.print(YPR[0]);
+        Serial.print("\t");
+        Serial.print(YPR[1]);
+        Serial.print("\t");
+        Serial.println(YPR[2]);
+        delay(10);
+
+      } else if (Re_buf[2] == 0x45) {
+        Serial.print("YPR\t");
+
+        YPR[0] = (Re_buf[8] << 8 | Re_buf[9]);
+        YPR[1] = (Re_buf[6] << 8 | Re_buf[7]);
+        YPR[2] = (Re_buf[4] << 8 | Re_buf[5]);
+        Serial.print(YPR[0]);
+        Serial.print("\t");
+        Serial.print(YPR[1]);
+        Serial.print("\t");
+        Serial.println(YPR[2]);
+        delay(10);
+      }
+    }
+  }
+}
+
+//---------------------------------------------------------------
+
+void serialEvent1() {
+  while (Serial1.available()) {
+    Re_buf[counter] = (unsigned char)Serial1.read();
+    if (counter == 0 && Re_buf[0] != 0x5A)
+      return; // 检查帧头
+    counter++;
+    if (counter == 11) //接收到数据
+    {
+      counter = 0; //重新赋值，准备下一帧数据的接收
+      sign = 1;
+    }
+  }
+}
+
+void serialEvent() {
+  if (Serial.available()) {
+    int tmp;
+    tmp = (int)Serial.read();
+    Serial.println(tmp);
+    if (tmp == 49) {
+      Serial1.write(0xA5);
+      Serial1.write(0x45); //输出陀螺仪
+      Serial1.write(0xEA);
+    } else if (tmp == 50) {
+      Serial1.write(0xA5);
+      Serial1.write(0x15); //输出加速度
+      Serial1.write(0xBA);
+    } else if (tmp == 51) {
+      Serial1.write(0xA5);
+      Serial1.write(0x57); //加速度传感器校准
+      Serial1.write(0xFC);
+    }
+  }
+}

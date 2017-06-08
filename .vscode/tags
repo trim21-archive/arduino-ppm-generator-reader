@@ -1,0 +1,10 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	Development	//
+app.py	../../app.py	1;"	kind:file	line:1
+line	../../app.py	/^line = ser.readline()$/;"	kind:variable	line:5
+ser	../../app.py	/^ser = serial.Serial('CON3')  # open serial port$/;"	kind:variable	line:2
+serial	../../app.py	/^import serial$/;"	kind:namespace	line:1
