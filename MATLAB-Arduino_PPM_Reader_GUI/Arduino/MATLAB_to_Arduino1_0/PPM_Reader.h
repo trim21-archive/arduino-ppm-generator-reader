@@ -36,7 +36,7 @@
 //Set up PPM_Reader-specific Global variables
 
 //set up constants & variables
-const uint8_t input_pin = 2; //Pin 2 is the interrupt 0 pin, see here: http://arduino.cc/en/Reference/attachInterrupt
+const uint8_t input_pin = 3; //Pin 2 is the interrupt 0 pin, see here: http://arduino.cc/en/Reference/attachInterrupt
 const uint8_t max_num_chs = 16; //the maximum # of channels you ever expect to see in a single PPM signal that this device will read 
 
 //volatile variables for use in the ISR (Interrupt Service Routine)

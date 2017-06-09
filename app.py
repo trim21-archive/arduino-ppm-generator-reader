@@ -1,6 +1,6 @@
 import serial
 import os
-ser = serial.Serial('COM4', 115200)  # open serial port
+ser = serial.Serial('COM3', 115200)  # open serial port
 print(ser.name)         # check which port was really used
 # ser.write(b'hello')     # write a string
 acc = [0, 0, 0, 2, 0, 0]
