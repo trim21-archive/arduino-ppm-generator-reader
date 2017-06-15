@@ -1,6 +1,0 @@
-{
-    "board": "arduino:avr:mega",
-    "configuration": "cpu=atmega2560",
-    "sketch": "MATLAB-Arduino_PPM_Reader_GUI\\Arduino\\MATLAB_to_Arduino1_0\\readppm.ino",
-    "port": "COM3"
-}
