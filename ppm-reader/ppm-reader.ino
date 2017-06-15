@@ -2,8 +2,8 @@
  reagrdless of channel number, polarity, ppm frame length, etc...
  You can even change these while scanning!*/
 
-#define PPM_Pin 3
-int ppm[16]; // array for storing up to 16 servo signals
+#define PPM_Pin 3 // digital pin with interrupt support
+int ppm[16];      // array for storing up to 16 servo signals
 
 void read_ppm() {
   static unsigned int pulse;
@@ -22,13 +22,12 @@ void read_ppm() {
     channel++;
   }
 }
-
 void setup() {
   Serial.begin(250000);
   Serial.println("ready");
 
   pinMode(PPM_Pin, INPUT);
-  attachInterrupt(PPM_Pin - 2, read_ppm, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(PPM_Pin), read_ppm, CHANGE);
 
   TCCR1A = 0x00; // COM1A1=0, COM1A0=0 => Disconnect Pin OC1 from Timer/Counter
                  // 1 -- PWM11=0,PWM10=0 => PWM Operation disabled
